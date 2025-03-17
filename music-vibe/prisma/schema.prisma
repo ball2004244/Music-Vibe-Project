@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Music data models
+model Artist {
+  id        String   @id @default(cuid())
+  name      String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  songs     Song[]
+}
+
+model Song {
+  id        String   @id @default(cuid())
+  title     String
+  duration  Int      // Duration in seconds
+  artistId  String
+  artist    Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  vibes     Vibe[]   @relation("SongToVibe")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Vibe {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  color       String?
+  songs       Song[]   @relation("SongToVibe")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

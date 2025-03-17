@@ -1,4 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Music Vibe Project
+
+## Overview
+This project is a web application that allows users to upload their musics and get a vibe check on them. The application then extract music vibes and create a graphical representation to show the user how their music is perceived.
+
+## Tech Stack
+- **Next.js**: A React framework for building server-rendered applications.
+- **TypeScript**: A superset of JavaScript that adds static types.
+- **Tailwind CSS**: A utility-first CSS framework for styling.
+- **Vercel**: A cloud platform for static sites and serverless functions.
+- **Sigma.js**: Represent each music as a node in a graph and connect them with edges to show the relationship between different musics.
+- **Prisma**: An ORM for Node.js and TypeScript that simplifies database access.
+- **Neon**: A serverless Postgres database that allows for easy scaling and management.
 
 ## Getting Started
 
