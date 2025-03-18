@@ -1,13 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+type Params = { params: { id: string } }
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
     const vibe = await prisma.vibe.findUnique({
-      where: { id: params.id },
+      where: { id: context.params.id },
       include: { songs: true },
     });
 
@@ -24,12 +26,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
     const body = await request.json();
     const updatedVibe = await prisma.vibe.update({
-      where: { id: params.id },
+      where: { id: context.params.id },
       data: {
         name: body.name,
         description: body.description,
@@ -52,11 +54,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
     await prisma.vibe.delete({
-      where: { id: params.id },
+      where: { id: context.params.id },
     });
 
     return NextResponse.json({ message: "Vibe deleted successfully" }, { status: 200 });

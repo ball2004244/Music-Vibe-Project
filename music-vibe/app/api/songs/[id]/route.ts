@@ -1,13 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+type Params = { params: { id: string } }
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
     const song = await prisma.song.findUnique({
-      where: { id: params.id },
+      where: { id: context.params.id },
       include: { artist: true, vibes: true },
     });
 
@@ -24,12 +26,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
     const body = await request.json();
     const updatedSong = await prisma.song.update({
-      where: { id: params.id },
+      where: { id: context.params.id },
       data: {
         title: body.title,
         duration: body.duration,
@@ -55,11 +57,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: Params
 ) {
   try {
     await prisma.song.delete({
-      where: { id: params.id },
+      where: { id: context.params.id },
     });
 
     return NextResponse.json({ message: "Song deleted successfully" }, { status: 200 });
