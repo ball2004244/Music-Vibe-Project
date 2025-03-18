@@ -1,10 +1,109 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MdPerson, MdMusicNote, MdMood } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
+import { authenticateAdmin } from './services/api';
 
 export default function AdminDashboard() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuthenticatedSession = sessionStorage.getItem('adminAuthenticated');
+      if (isAuthenticatedSession) {
+        setIsAuthenticated(true);
+        setIsLoading(false);
+      } else {
+        setShowPasswordPrompt(true);
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const handlePasswordSubmit = async (password: string) => {
+    if (!password) {
+      router.push('/');
+      return;
+    }
+
+    try {
+      const isAuthenticated = await authenticateAdmin(password);
+      if (isAuthenticated) {
+        setIsAuthenticated(true);
+        sessionStorage.setItem('adminAuthenticated', 'true');
+      } else {
+        alert('Invalid password');
+        router.push('/');
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      router.push('/');
+    }
+    setShowPasswordPrompt(false);
+  };
+
+  const PasswordPrompt = () => {
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      handlePasswordSubmit(password);
+    };
+
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+        <form 
+          onSubmit={handleSubmit}
+          className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl max-w-md w-full mx-4"
+        >
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+            Admin Authentication
+          </h2>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter admin password"
+            className="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-600 
+                     dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 
+                     focus:ring-purple-500 dark:focus:ring-purple-400"
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="mt-4 w-full bg-purple-600 hover:bg-purple-700 text-white 
+                     font-medium py-2 px-4 rounded transition-colors"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    );
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+        <div className="text-xl text-gray-600 dark:text-gray-300">Loading...</div>
+      </div>
+    );
+  }
+
+  if (showPasswordPrompt) {
+    return <PasswordPrompt />;
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen dark:bg-gray-900">
       <header className="bg-gradient-to-r from-purple-700 to-indigo-800 text-white p-6 shadow-lg">
@@ -60,21 +159,14 @@ export default function AdminDashboard() {
         </section>
 
         <section className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Quick Tips</h2>
-          <ul className="space-y-2 text-gray-700 dark:text-gray-300 list-disc pl-5">
-            <li>Add artists before adding songs for proper relationships</li>
+          <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Tips</h2>
+          <ul className="list-disc list-inside text-gray-600 dark:text-gray-300">
+            <li>Ensure all artists are properly linked to their songs for proper relationships</li>
             <li>For the best experience, include image URLs for artists</li>
             <li>Create vibes to categorize your songs effectively</li>
-            <li>All data changes are immediately reflected in the database</li>
           </ul>
         </section>
       </main>
-      
-      <footer className="mt-auto py-6 text-center text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-800">
-        <div className="container mx-auto">
-          <p>Music Vibe Admin Dashboard © {new Date().getFullYear()}</p>
-        </div>
-      </footer>
     </div>
   );
 }

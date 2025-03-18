@@ -1,5 +1,19 @@
 import { Artist, Song, Vibe } from '../types';
 
+export async function authenticateAdmin(password: string): Promise<boolean> {
+  const res = await fetch('/api/auth/admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  });
+  
+  if (!res.ok) {
+    return false;
+  }
+  
+  return true;
+}
+
 // Artists API
 export async function getArtists(): Promise<Artist[]> {
   const res = await fetch('/api/artists');
