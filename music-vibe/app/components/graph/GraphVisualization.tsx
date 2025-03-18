@@ -1,8 +1,13 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useCallback, useState, useEffect, useRef } from 'react';
-import ForceGraph2D from 'react-force-graph-2d';
 import { Song, Artist, Vibe } from '@/app/admin/types';
+
+const ForceGraph2D = dynamic(
+  () => import('react-force-graph-2d'),
+  { ssr: false }
+);
 
 interface Node {
   id: string;
