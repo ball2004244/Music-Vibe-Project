@@ -48,7 +48,7 @@ export default function Sidebar({ data, onItemSelect }: SidebarProps) {
     <div className="w-[30%] border-r border-gray-200 dark:border-gray-700">
       {/* Search Header */}
       <div className="bg-gradient-to-r from-purple-700 to-indigo-800 p-6">
-        <h1 className="text-2xl font-bold text-white">Music Vibe</h1>
+        <h1 className="text-2xl font-bold text-white">Music Vibe Graph</h1>
         <div className="mt-4 relative">
           <input
             type="text"

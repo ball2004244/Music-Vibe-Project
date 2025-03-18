@@ -38,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Features
 - [ ] Upload music files: 
     - [ ] Music file upload: Upload single audio file to the server.
-    - [ ] Store metadata: Store metadata of the uploaded music in the Neon database.
+    - [X] Store metadata: Store metadata of the uploaded music in the Neon database.
 - [ ] Graph display: Create & display a graph connecting between musics and vibes.
 - [ ] Search: Search for musics by name or vibe keyword. Highlight the musics that match the search criteria in the graph.
 - [ ] Advanced upload: 
