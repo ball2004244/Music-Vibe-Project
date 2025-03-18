@@ -8,7 +8,7 @@ This project is a web application that allows users to upload their musics and g
 - **TypeScript**: A superset of JavaScript that adds static types.
 - **Tailwind CSS**: A utility-first CSS framework for styling.
 - **Vercel**: A cloud platform for static sites and serverless functions.
-- **Sigma.js**: Represent each music as a node in a graph and connect them with edges to show the relationship between different musics.
+- **React Force Graph**: Represent each music as a node in a graph and connect them with edges to show the relationship between different musics.
 - **Prisma**: An ORM for Node.js and TypeScript that simplifies database access.
 - **Neon**: A serverless Postgres database that allows for easy scaling and management.
 
