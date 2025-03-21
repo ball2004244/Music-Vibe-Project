@@ -1,6 +1,6 @@
 import { ErrorAlertProps } from "@/app/types/common";
 
-export default function ErrorAlert({ message }: ErrorAlertProps) {
+export const ErrorAlert = ({ message }: ErrorAlertProps) => {
   return (
     <div className="bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg mb-6">
       <div className="flex items-center">
@@ -20,4 +20,4 @@ export default function ErrorAlert({ message }: ErrorAlertProps) {
       </div>
     </div>
   );
-}
+};

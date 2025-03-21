@@ -5,7 +5,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import { GraphVisualization } from "@/app/components/graph";
 import { LoadingSpinner, ErrorAlert } from "@/app/components/common";
 import { Artist, Song, Vibe } from "@/app/types";
-import { getArtists, getSongs, getVibes } from "@/app/services/api";
+import { getArtists, getSongs, getVibes } from "@/app/services";
 
 export default function Home() {
   const [data, setData] = useState<{

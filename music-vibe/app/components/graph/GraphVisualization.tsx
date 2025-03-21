@@ -14,10 +14,10 @@ const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
   ssr: false,
 });
 
-export default function GraphVisualization({
-  data,
-  onNodeClick,
-}: GraphVisualizationProps) {
+export const GraphVisualization: React.FC<GraphVisualizationProps> = ({ 
+  data, 
+  onNodeClick 
+}) => {
   const [mounted, setMounted] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
   const [viewMode, setViewMode] = useState<ViewMode>("vibe");
@@ -232,4 +232,4 @@ export default function GraphVisualization({
       />
     </div>
   );
-}
+};

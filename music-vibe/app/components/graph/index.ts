@@ -1,3 +1,1 @@
-import GraphVisualization from "./GraphVisualization";
-
-export { GraphVisualization };
+export * from "./GraphVisualization";

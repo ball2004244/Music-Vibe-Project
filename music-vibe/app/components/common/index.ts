@@ -1,4 +1,2 @@
-import LoadingSpinner from './LoadingSpinner';
-import ErrorAlert from './ErrorAlert';
-
-export { LoadingSpinner, ErrorAlert };
+export * from "./LoadingSpinner";
+export * from "./ErrorAlert";

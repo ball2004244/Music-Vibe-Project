@@ -12,7 +12,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(songs, { status: 200 });
   } catch (error) {
     console.error("Error fetching songs:", error);
-    return NextResponse.json({ error: "Error fetching songs" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Error fetching songs" },
+      { status: 500 }
+    );
   }
 }
 
@@ -24,16 +27,18 @@ export async function POST(request: NextRequest) {
         title: body.title,
         duration: body.duration,
         artist: {
-          connect: { id: body.artistId }
+          connect: { id: body.artistId },
         },
-        vibes: body.vibeIds ? {
-          connect: body.vibeIds.map((id: string) => ({ id }))
-        } : undefined
+        vibes: body.vibeIds
+          ? {
+              connect: body.vibeIds.map((id: string) => ({ id })),
+            }
+          : undefined,
       },
       include: {
         artist: true,
         vibes: true,
-      }
+      },
     });
     return NextResponse.json(song, { status: 201 });
   } catch (error) {

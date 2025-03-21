@@ -10,13 +10,13 @@ const variantStyles = {
     "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/60",
 };
 
-export default function Button({
+export const Button = ({
   children,
   variant = "primary",
   icon: Icon,
   className = "",
   ...props
-}: ButtonProps) {
+}: ButtonProps) => {
   return (
     <button
       className={`
@@ -32,4 +32,4 @@ export default function Button({
       {children}
     </button>
   );
-}
+};

@@ -1,39 +1,41 @@
-import { useState } from 'react';
-import { MdSearch, MdMusicNote } from 'react-icons/md';
-import { Song, Artist, Vibe } from '@/app/types';
-import { SidebarProps } from '@/app/types';
+import { useState } from "react";
+import { MdSearch, MdMusicNote } from "react-icons/md";
+import { Song, Artist, Vibe } from "@/app/types";
+import { SidebarProps } from "@/app/types";
 
+export const Sidebar = ({ data, onItemSelect }: SidebarProps) => {
+  const [searchQuery, setSearchQuery] = useState("");
 
-export default function Sidebar({ data, onItemSelect }: SidebarProps) {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredItems = searchQuery ? [
-    ...data.songs.filter(song => 
-      song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      song.artist.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
-    ...data.artists.filter(artist => 
-      artist.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
-    ...data.vibes.filter(vibe => 
-      vibe.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  ] : [...data.songs];
+  const filteredItems = searchQuery
+    ? [
+        ...data.songs.filter(
+          (song) =>
+            song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            song.artist.name.toLowerCase().includes(searchQuery.toLowerCase())
+        ),
+        ...data.artists.filter((artist) =>
+          artist.name.toLowerCase().includes(searchQuery.toLowerCase())
+        ),
+        ...data.vibes.filter((vibe) =>
+          vibe.name.toLowerCase().includes(searchQuery.toLowerCase())
+        ),
+      ]
+    : [...data.songs];
 
   const getItemColor = (item: Song | Artist | Vibe): string => {
-    if ('title' in item) return '#9333ea'; // Song - purple-600
-    if ('imageUrl' in item) return '#4f46e5'; // Artist - indigo-600
-    return item.color || '#22c55e'; // Vibe - use its color or default to green-500
+    if ("title" in item) return "#9333ea"; // Song - purple-600
+    if ("imageUrl" in item) return "#4f46e5"; // Artist - indigo-600
+    return item.color || "#22c55e"; // Vibe - use its color or default to green-500
   };
 
   const getItemName = (item: Song | Artist | Vibe): string => {
-    if ('title' in item) return item.title;
+    if ("title" in item) return item.title;
     return item.name;
   };
 
   const getItemSubtext = (item: Song | Artist | Vibe): string | undefined => {
-    if ('title' in item) return item.artist.name;
-    if ('imageUrl' in item) return `${item.songs.length} songs`;
+    if ("title" in item) return item.artist.name;
+    if ("imageUrl" in item) return `${item.songs.length} songs`;
     return `${item.songs.length} songs`;
   };
 
@@ -68,11 +70,11 @@ export default function Sidebar({ data, onItemSelect }: SidebarProps) {
               className="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
             >
               <div className="flex items-center space-x-3">
-                <div 
+                <div
                   className="p-2 rounded-full"
                   style={{ backgroundColor: `${getItemColor(item)}20` }}
                 >
-                  <MdMusicNote 
+                  <MdMusicNote
                     className="h-5 w-5"
                     style={{ color: getItemColor(item) }}
                   />
@@ -94,4 +96,4 @@ export default function Sidebar({ data, onItemSelect }: SidebarProps) {
       </div>
     </div>
   );
-}
+};

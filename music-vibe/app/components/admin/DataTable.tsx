@@ -1,10 +1,10 @@
 import { DataTableProps } from "@/app/types/admin";
 
-export default function DataTable<T>({
+export const DataTable = <T,>({
   data,
   columns,
   className = "",
-}: DataTableProps<T>) {
+}: DataTableProps<T>) => {
   return (
     <div
       className={`bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 ${className}`}
@@ -46,4 +46,4 @@ export default function DataTable<T>({
       </div>
     </div>
   );
-}
+};

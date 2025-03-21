@@ -1,8 +1,13 @@
-import Link from 'next/link';
-import { MdArrowBack } from 'react-icons/md';
-import { AdminLayoutProps } from '@/app/types/admin';
+import Link from "next/link";
+import { MdArrowBack } from "react-icons/md";
+import { AdminLayoutProps } from "@/app/types/admin";
 
-export default function AdminLayout({ children, title, subtitle, backHref = '/admin' }: AdminLayoutProps) {
+const AdminLayout = ({
+  children,
+  title,
+  subtitle,
+  backHref = "/admin",
+}: AdminLayoutProps) => {
   return (
     <div className="min-h-screen dark:bg-gray-900 pb-12">
       <header className="bg-gradient-to-r from-purple-700 to-indigo-800 text-white p-6 shadow-lg">
@@ -24,10 +29,10 @@ export default function AdminLayout({ children, title, subtitle, backHref = '/ad
           </div>
         </div>
       </header>
-      
-      <main className="container mx-auto p-6 mt-8">
-        {children}
-      </main>
+
+      <main className="container mx-auto p-6 mt-8">{children}</main>
     </div>
   );
-}
+};
+
+export default AdminLayout;
