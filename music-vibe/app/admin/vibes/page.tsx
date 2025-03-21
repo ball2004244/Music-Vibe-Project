@@ -8,7 +8,7 @@ import { Button, DataTable } from "@/app/components/admin";
 import type { Vibe } from "@/app/types";
 import { getVibes, createVibe, updateVibe, deleteVibe } from "@/app/services";
 
-export const VibesPage = () => {
+const VibesPage = () => {
   const [vibes, setVibes] = useState<Vibe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -311,3 +311,5 @@ export const VibesPage = () => {
     </AdminLayout>
   );
 };
+
+export default VibesPage;

@@ -3,11 +3,9 @@
 import { useState, useEffect } from "react";
 import { MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import AdminLayout from "../AdminLayout";
-import LoadingSpinner from "../../components/common/LoadingSpinner";
-import ErrorAlert from "../../components/common/ErrorAlert";
-import Button from "../../components/admin/Button";
-import DataTable from "../../components/admin/DataTable";
-import { Song, Artist, Vibe } from "../../types";
+import { ErrorAlert, LoadingSpinner } from "@/app/components/common";
+import { Button, DataTable } from "@/app/components/admin";
+import type { Song, Artist, Vibe } from "@/app/types";
 import {
   getSongs,
   createSong,
@@ -15,7 +13,7 @@ import {
   deleteSong,
   getArtists,
   getVibes,
-} from "../../services";
+} from "@/app/services";
 
 const formatDuration = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
@@ -23,7 +21,7 @@ const formatDuration = (seconds: number) => {
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
 };
 
-export const SongsPage = () => {
+const SongsPage = () => {
   const [songs, setSongs] = useState<Song[]>([]);
   const [artists, setArtists] = useState<Artist[]>([]);
   const [vibes, setVibes] = useState<Vibe[]>([]);
@@ -441,3 +439,5 @@ export const SongsPage = () => {
     </AdminLayout>
   );
 };
+
+export default SongsPage;

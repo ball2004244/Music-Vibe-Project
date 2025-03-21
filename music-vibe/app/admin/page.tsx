@@ -6,7 +6,7 @@ import { MdPerson, MdMusicNote, MdMood } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { authenticateAdmin } from "@/app/services";
 
-export const AdminDashboard: React.FC = () => {
+const AdminDashboard: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
@@ -202,4 +202,6 @@ export const AdminDashboard: React.FC = () => {
       </main>
     </div>
   );
-}
+};
+
+export default AdminDashboard;

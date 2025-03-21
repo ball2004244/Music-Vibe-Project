@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Sidebar from "./components/sidebar/Sidebar";
+import { Sidebar } from "@/app/components/sidebar";
 import { GraphVisualization } from "@/app/components/graph";
 import { LoadingSpinner, ErrorAlert } from "@/app/components/common";
 import { Artist, Song, Vibe } from "@/app/types";

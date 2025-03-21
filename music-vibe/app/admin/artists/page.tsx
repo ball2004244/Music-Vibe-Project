@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MdAdd, MdEdit, MdDelete } from "react-icons/md";
+import { MdAdd, MdEdit, MdDelete, MdDeleteForever } from "react-icons/md";
 import AdminLayout from "../AdminLayout";
 import { ErrorAlert, LoadingSpinner } from "@/app/components/common";
 import { Button, DataTable } from "@/app/components/admin";
@@ -11,9 +11,10 @@ import {
   createArtist,
   updateArtist,
   deleteArtist,
+  resetDatabase,
 } from "@/app/services";
 
-export const ArtistsPage = () => {
+const ArtistsPage = () => {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -94,6 +95,38 @@ export const ArtistsPage = () => {
     } catch (err) {
       alert("Failed to delete artist. Please try again.");
       console.error(err);
+    }
+  };
+
+  const handleResetDatabase = async () => {
+    if (
+      !confirm(
+        "⚠️ WARNING! This will delete ALL data from the database including all artists, songs, and vibes. This action CANNOT be undone. Are you absolutely sure?"
+      )
+    ) {
+      return;
+    }
+    
+    // Double confirmation
+    if (
+      !confirm(
+        "Last chance! Type 'DELETE' in the prompt to confirm database reset."
+      ) &&
+      prompt("Type DELETE to confirm") !== "DELETE"
+    ) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await resetDatabase();
+      fetchArtists();
+      alert("Database has been reset successfully.");
+    } catch (err) {
+      alert("Failed to reset database. Please try again.");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -195,9 +228,18 @@ export const ArtistsPage = () => {
             Create, edit and manage artists
           </p>
         </div>
-        <Button icon={MdAdd} onClick={() => setIsCreating(true)}>
-          Add Artist
-        </Button>
+        <div className="flex gap-2">
+          <Button icon={MdAdd} onClick={() => setIsCreating(true)}>
+            Add Artist
+          </Button>
+          <Button 
+            variant="danger" 
+            icon={MdDeleteForever} 
+            onClick={handleResetDatabase}
+          >
+            Reset Database
+          </Button>
+        </div>
       </section>
 
       {error && <ErrorAlert message={error} />}
@@ -272,3 +314,5 @@ export const ArtistsPage = () => {
     </AdminLayout>
   );
 };
+
+export default ArtistsPage;
