@@ -68,8 +68,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [ ] Upload music files:
   - [ ] Music file upload: Upload single audio file to the server.
   - [x] Store metadata: Store metadata of the uploaded music in the Neon database.
-- [ ] Graph display: Create & display a graph connecting between musics and vibes.
-- [ ] Search: Search for musics by name or vibe keyword. Highlight the musics that match the search criteria in the graph.
+- [x] Graph display: Create & display a graph connecting between musics and vibes.
+- [x] Search: Search for musics by name or vibe keyword. Highlight the musics that match the search criteria in the graph.
 - [ ] Advanced upload:
   - [ ] URL Upload: Allow user to enter a youtube link as an upload option.
   - [ ] Playlist Upload: Allow user to paste Youtube playlist URL, auto search for all musics in the playlist and add to the graph.
+- [ ] Vibe Extraction: Use Gemini 2.0 Flash to extract vibes from the uploaded music/music URL.
