@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import { MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import AdminLayout from "../AdminLayout";
 import { ErrorAlert, LoadingSpinner } from "@/app/components/common";
-import { Button, DataTable } from "@/app/components/admin";
+import {
+  Button,
+  DataTable,
+  AdminPageHeader,
+  EmptyState,
+  SongForm,
+} from "@/app/components/admin";
 import type { Song, Artist, Vibe } from "@/app/types";
 import {
   getSongs,
@@ -134,6 +140,13 @@ const SongsPage = () => {
         return { ...prev, vibeIds };
       });
     }
+  };
+
+  const handleFormChange = (field: string, value: any) => {
+    setNewSong((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   const columns = [
@@ -287,152 +300,42 @@ const SongsPage = () => {
 
   return (
     <AdminLayout title="Songs" subtitle="Manage all songs in your database">
-      <section className="mb-6 flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Song Management
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            Create, edit and manage songs
-          </p>
-        </div>
-        <Button
-          icon={MdAdd}
-          onClick={() => setIsCreating(true)}
-          disabled={artists.length === 0}
-        >
-          Add Song
-        </Button>
-      </section>
+      <AdminPageHeader
+        title="Song Management"
+        description="Create, edit and manage songs"
+        actionButton={{
+          label: "Add Song",
+          icon: MdAdd,
+          onClick: () => setIsCreating(true),
+          disabled: artists.length === 0,
+        }}
+      />
 
       {error && <ErrorAlert message={error} />}
 
       {artists.length === 0 && (
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
-          You need to add an artist before you can add songs.
-        </div>
+        <EmptyState
+          message="You need to add an artist before you can add songs."
+          type="warning"
+        />
       )}
 
       {isCreating && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-              Add New Song
-            </h3>
-            <Button variant="secondary" onClick={() => setIsCreating(false)}>
-              Cancel
-            </Button>
-          </div>
-
-          <form onSubmit={handleCreateSong} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Title <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={newSong.title}
-                onChange={(e) =>
-                  setNewSong({ ...newSong, title: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Duration (seconds) <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                value={newSong.duration}
-                onChange={(e) =>
-                  setNewSong({
-                    ...newSong,
-                    duration: parseInt(e.target.value) || 0,
-                  })
-                }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                min="1"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Artist <span className="text-red-500">*</span>
-              </label>
-              <select
-                value={newSong.artistId}
-                onChange={(e) =>
-                  setNewSong({ ...newSong, artistId: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                required
-              >
-                <option value="">Select an artist</option>
-                {artists.map((artist) => (
-                  <option key={artist.id} value={artist.id}>
-                    {artist.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Vibes
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-1">
-                {vibes.map((vibe) => (
-                  <div key={vibe.id} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id={`vibe-${vibe.id}`}
-                      checked={newSong.vibeIds.includes(vibe.id)}
-                      onChange={() => handleVibeChange(vibe.id)}
-                      className="mr-2"
-                    />
-                    <label
-                      htmlFor={`vibe-${vibe.id}`}
-                      className="text-sm flex items-center text-gray-800 dark:text-gray-200"
-                    >
-                      {vibe.color && (
-                        <span
-                          className="inline-block w-3 h-3 rounded-full mr-1"
-                          style={{ backgroundColor: vibe.color }}
-                        />
-                      )}
-                      {vibe.name}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <Button type="submit">Create Song</Button>
-              <Button
-                variant="secondary"
-                type="button"
-                onClick={() => setIsCreating(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </div>
+        <SongForm
+          title="Add New Song"
+          formData={newSong}
+          artists={artists}
+          vibes={vibes}
+          onSubmit={handleCreateSong}
+          onCancel={() => setIsCreating(false)}
+          onChange={handleFormChange}
+        />
       )}
 
       {loading ? (
         <LoadingSpinner />
       ) : songs.length === 0 ? (
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-8 text-center">
-          <p className="text-yellow-800 dark:text-yellow-200 text-lg">
-            No songs found. Add a song to get started.
-          </p>
-        </div>
+        <EmptyState message="No songs found. Add a song to get started." />
       ) : (
         <DataTable data={songs} columns={columns} />
       )}

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { MdAdd, MdEdit, MdDelete, MdDeleteForever } from "react-icons/md";
 import AdminLayout from "../AdminLayout";
 import { ErrorAlert, LoadingSpinner } from "@/app/components/common";
-import { Button, DataTable } from "@/app/components/admin";
+import { Button, DataTable, AdminPageHeader, CreateEditForm } from "@/app/components/admin";
 import type { Artist } from "@/app/types";
 import {
   getArtists,
@@ -217,21 +217,36 @@ const ArtistsPage = () => {
     },
   ];
 
+  const createFormFields = [
+    {
+      name: "name",
+      label: "Name",
+      type: "text" as const,
+      required: true,
+      value: newArtist.name,
+      onChange: (value: string) => setNewArtist({ ...newArtist, name: value }),
+    },
+    {
+      name: "imageUrl",
+      label: "Image URL",
+      type: "text" as const,
+      placeholder: "https://example.com/image.jpg",
+      value: newArtist.imageUrl,
+      onChange: (value: string) => setNewArtist({ ...newArtist, imageUrl: value }),
+    },
+  ];
+
   return (
     <AdminLayout title="Artists" subtitle="Manage all artists in your database">
-      <section className="mb-6 flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Artist Management
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            Create, edit and manage artists
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button icon={MdAdd} onClick={() => setIsCreating(true)}>
-            Add Artist
-          </Button>
+      <AdminPageHeader
+        title="Artist Management"
+        description="Create, edit and manage artists"
+        actionButton={{
+          label: "Add Artist",
+          icon: MdAdd,
+          onClick: () => setIsCreating(true),
+        }}
+        additionalButtons={
           <Button 
             variant="danger" 
             icon={MdDeleteForever} 
@@ -239,65 +254,18 @@ const ArtistsPage = () => {
           >
             Reset Database
           </Button>
-        </div>
-      </section>
+        }
+      />
 
       {error && <ErrorAlert message={error} />}
 
       {isCreating && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-              Add New Artist
-            </h3>
-            <Button variant="secondary" onClick={() => setIsCreating(false)}>
-              Cancel
-            </Button>
-          </div>
-
-          <form onSubmit={handleCreateArtist} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={newArtist.name}
-                onChange={(e) =>
-                  setNewArtist({ ...newArtist, name: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Image URL
-              </label>
-              <input
-                type="text"
-                value={newArtist.imageUrl}
-                onChange={(e) =>
-                  setNewArtist({ ...newArtist, imageUrl: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                placeholder="https://example.com/image.jpg"
-              />
-            </div>
-
-            <div className="flex gap-2">
-              <Button type="submit">Create Artist</Button>
-              <Button
-                variant="secondary"
-                type="button"
-                onClick={() => setIsCreating(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </div>
+        <CreateEditForm
+          title="Add New Artist"
+          onSubmit={handleCreateArtist}
+          onCancel={() => setIsCreating(false)}
+          fields={createFormFields}
+        />
       )}
 
       {loading ? (

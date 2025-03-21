@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import { MdAdd, MdEdit, MdDelete } from "react-icons/md";
 import AdminLayout from "../AdminLayout";
 import { ErrorAlert, LoadingSpinner } from "@/app/components/common";
-import { Button, DataTable } from "@/app/components/admin";
+import { 
+  Button, 
+  DataTable, 
+  AdminPageHeader, 
+  CreateEditForm,
+  EmptyState 
+} from "@/app/components/admin";
 import type { Vibe } from "@/app/types";
 import { getVibes, createVibe, updateVibe, deleteVibe } from "@/app/services";
 
@@ -204,107 +210,80 @@ const VibesPage = () => {
     },
   ];
 
+  const formFields = [
+    {
+      name: "name",
+      label: "Name",
+      type: "text" as const,
+      required: true,
+      value: newVibe.name,
+      onChange: (value: string) => setNewVibe({ ...newVibe, name: value }),
+    },
+    {
+      name: "color",
+      label: "Color",
+      type: "text" as const,
+      value: newVibe.color,
+      onChange: (value: string) => setNewVibe({ ...newVibe, color: value }),
+      render: () => (
+        <div className="flex items-center gap-2">
+          <input
+            type="color"
+            value={newVibe.color}
+            onChange={(e) => setNewVibe({ ...newVibe, color: e.target.value })}
+            className="w-12 h-10 p-1 rounded border dark:border-gray-600"
+          />
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            {newVibe.color}
+          </span>
+        </div>
+      ),
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "text" as const,
+      value: newVibe.description,
+      onChange: (value: string) => setNewVibe({ ...newVibe, description: value }),
+      render: () => (
+        <textarea
+          value={newVibe.description}
+          onChange={(e) => setNewVibe({ ...newVibe, description: e.target.value })}
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          rows={3}
+          placeholder="Describe this vibe..."
+        />
+      ),
+    },
+  ];
+
   return (
     <AdminLayout title="Vibes" subtitle="Manage all vibes in your database">
-      <section className="mb-6 flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Vibe Management
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            Create, edit and manage vibes
-          </p>
-        </div>
-        <Button icon={MdAdd} onClick={() => setIsCreating(true)}>
-          Add Vibe
-        </Button>
-      </section>
+      <AdminPageHeader
+        title="Vibe Management"
+        description="Create, edit and manage vibes"
+        actionButton={{
+          label: "Add Vibe",
+          icon: MdAdd,
+          onClick: () => setIsCreating(true),
+        }}
+      />
 
       {error && <ErrorAlert message={error} />}
 
       {isCreating && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-              Add New Vibe
-            </h3>
-            <Button variant="secondary" onClick={() => setIsCreating(false)}>
-              Cancel
-            </Button>
-          </div>
-
-          <form onSubmit={handleCreateVibe} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={newVibe.name}
-                onChange={(e) =>
-                  setNewVibe({ ...newVibe, name: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Color
-              </label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="color"
-                  value={newVibe.color}
-                  onChange={(e) =>
-                    setNewVibe({ ...newVibe, color: e.target.value })
-                  }
-                  className="w-12 h-10 p-1 rounded border dark:border-gray-600"
-                />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
-                  {newVibe.color}
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Description
-              </label>
-              <textarea
-                value={newVibe.description}
-                onChange={(e) =>
-                  setNewVibe({ ...newVibe, description: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                rows={3}
-                placeholder="Describe this vibe..."
-              />
-            </div>
-
-            <div className="flex gap-2">
-              <Button type="submit">Create Vibe</Button>
-              <Button
-                variant="secondary"
-                type="button"
-                onClick={() => setIsCreating(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </div>
+        <CreateEditForm
+          title="Add New Vibe"
+          onSubmit={handleCreateVibe}
+          onCancel={() => setIsCreating(false)}
+          fields={formFields}
+        />
       )}
 
       {loading ? (
         <LoadingSpinner />
       ) : vibes.length === 0 ? (
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-8 text-center">
-          <p className="text-yellow-800 dark:text-yellow-200 text-lg">
-            No vibes found. Add a vibe to get started.
-          </p>
-        </div>
+        <EmptyState message="No vibes found. Add a vibe to get started." />
       ) : (
         <DataTable data={vibes} columns={columns} />
       )}
