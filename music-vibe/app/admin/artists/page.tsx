@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { MdAdd, MdEdit, MdDelete } from 'react-icons/md';
-import AdminLayout from '../components/AdminLayout';
-import LoadingSpinner from '../components/LoadingSpinner';
-import ErrorAlert from '../components/ErrorAlert';
-import Button from '../components/Button';
-import DataTable from '../components/DataTable';
-import { Artist } from '../types';
-import { getArtists, createArtist, updateArtist, deleteArtist } from '../services/api';
+import AdminLayout from '../AdminLayout';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import ErrorAlert from '../../components/common/ErrorAlert';
+import Button from '../../components/admin/Button';
+import DataTable from '../../components/admin/DataTable';
+import { Artist } from '../../types';
+import { getArtists, createArtist, updateArtist, deleteArtist } from '../../services/api';
 
 export default function ArtistsPage() {
   const [artists, setArtists] = useState<Artist[]>([]);

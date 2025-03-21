@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { MdAdd, MdEdit, MdDelete } from 'react-icons/md';
-import AdminLayout from '../components/AdminLayout';
-import LoadingSpinner from '../components/LoadingSpinner';
-import ErrorAlert from '../components/ErrorAlert';
-import Button from '../components/Button';
-import DataTable from '../components/DataTable';
-import { Vibe } from '../types';
-import { getVibes, createVibe, updateVibe, deleteVibe } from '../services/api';
+import AdminLayout from '../AdminLayout';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import ErrorAlert from '../../components/common/ErrorAlert';
+import Button from '../../components/admin/Button';
+import DataTable from '../../components/admin/DataTable';
+import { Vibe } from '../../types';
+import { getVibes, createVibe, updateVibe, deleteVibe } from '../../services/api';
 
 export default function VibesPage() {
   const [vibes, setVibes] = useState<Vibe[]>([]);

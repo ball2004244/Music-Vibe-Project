@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MdPerson, MdMusicNote, MdMood } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
-import { authenticateAdmin } from './services/api';
+import { authenticateAdmin } from '../services/api';
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

@@ -1,12 +1,6 @@
 import Link from 'next/link';
 import { MdArrowBack } from 'react-icons/md';
-
-interface AdminLayoutProps {
-  children: React.ReactNode;
-  title: string;
-  subtitle: string;
-  backHref?: string;
-}
+import { AdminLayoutProps } from '@/app/types/admin';
 
 export default function AdminLayout({ children, title, subtitle, backHref = '/admin' }: AdminLayoutProps) {
   return (

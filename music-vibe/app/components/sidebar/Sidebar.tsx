@@ -1,15 +1,8 @@
 import { useState } from 'react';
 import { MdSearch, MdMusicNote } from 'react-icons/md';
-import { Song, Artist, Vibe } from '@/app/admin/types';
+import { Song, Artist, Vibe } from '@/app/types';
+import { SidebarProps } from '@/app/types';
 
-interface SidebarProps {
-  data: {
-    songs: Song[];
-    artists: Artist[];
-    vibes: Vibe[];
-  };
-  onItemSelect?: (item: Song | Artist | Vibe) => void;
-}
 
 export default function Sidebar({ data, onItemSelect }: SidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
