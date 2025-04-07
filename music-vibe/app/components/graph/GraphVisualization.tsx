@@ -1,6 +1,4 @@
 "use client";
-
-import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
 import type { GraphVisualizationProps, ViewMode } from "@/app/types";
 import {
@@ -11,10 +9,7 @@ import {
 } from "@/app/hooks";
 import { ViewControls } from "./ViewControls";
 import { Legend } from "./Legend";
-
-const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
-  ssr: false,
-});
+import { Node } from "./Node";
 
 export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
   data,
@@ -48,30 +43,14 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       <ViewControls viewMode={viewMode} setViewMode={setViewMode} />
       <Legend />
 
-      {/* Force Graph */}
-      <ForceGraph2D
-        ref={fgRef}
-        graphData={graphData}
-        nodeLabel="label"
-        nodeColor={(node: any) => node.color}
-        linkColor={(link: any) => link.color}
-        backgroundColor="#111827"
-        width={dimensions.width}
-        height={dimensions.height}
-        onNodeClick={(node: any) => onNodeClick?.(node)}
-        nodeRelSize={6}
-        linkWidth={1.5}
-        linkDirectionalParticles={2}
-        linkDirectionalParticleSpeed={0.004}
-        cooldownTime={2000}
-        nodeCanvasObject={drawNode}
-        nodePointerAreaPaint={nodePointerAreaPaint}
-        enableNodeDrag={true}
-        onNodeDragEnd={(node) => {
-          node.fx = node.x;
-          node.fy = node.y;
-        }}
+      {/* Graph with mock Nodes */}
+      <Node 
+        x={400}    // Center x position
+        y={300}    // Center y position
+        radius={30} // Node size
+        id="mock-node-1"
       />
+      
     </div>
   );
 };
