@@ -1,4 +1,26 @@
 import { Song, Artist, Vibe } from "./index";
+import { SimulationNodeDatum } from 'd3-force';
+
+export interface NodeData extends SimulationNodeDatum {
+  id: string;
+  radius: number;
+  type: 'song' | 'artist' | 'vibe';
+  color: string;
+  x?: number;
+  y?: number;
+  fx?: number | null;
+  fy?: number | null;
+}
+
+export interface EdgeData {
+  id: string;
+  sourceId: string;
+  targetId: string;
+  color: string;
+  strokeWidth: number;
+  source?: string | NodeData;
+  target?: string | NodeData;
+}
 
 export interface Node {
   id: string;
