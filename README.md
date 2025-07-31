@@ -69,6 +69,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
   - [ ] Music file upload: Upload single audio file to the server.
   - [x] Store metadata: Store metadata of the uploaded music in the Neon database.
 - [x] Graph display: Create & display a graph connecting between musics and vibes.
+  - [ ] Improve Graph Visual: Consider using Neo4j Visualization Library (NVL) for better graphics 
 - [x] Search: Search for musics by name or vibe keyword. Highlight the musics that match the search criteria in the graph.
 - [ ] Advanced upload:
   - [ ] URL Upload: Allow user to enter a youtube link as an upload option.
